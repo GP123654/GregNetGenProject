@@ -13,6 +13,12 @@ builder.Services.AddDefaultIdentity<GregNetGenProjectUser>(options => options.Si
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+//Might delete
+//builder.Services.AddDefaultIdentity<IdentityUser>()
+//    .AddRoles<IdentityRole>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

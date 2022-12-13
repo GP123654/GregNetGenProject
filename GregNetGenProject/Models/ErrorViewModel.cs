@@ -7,3 +7,4 @@ namespace GregNetGenProject.Models
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }
+//-------------------------------ooo000 END OF FILE 000ooo-------------------------------//

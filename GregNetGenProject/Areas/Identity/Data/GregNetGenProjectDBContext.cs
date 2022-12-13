@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Data;
 
 namespace GregNetGenProject.Areas.Identity.Data;
 
@@ -20,10 +21,32 @@ public class GregNetGenProjectDBContext : IdentityDbContext<GregNetGenProjectUse
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
 
+        //User Info
         builder.ApplyConfiguration(new GregNetGenProjectUserEntityConfiguration());
+
+        //Trying to add roles
+        /*
+        builder.Entity<Role>().HasData(new List<Role>
+        {
+            new Role {
+                Id = 1,
+                Name = "Admin",
+                NormalizedName = "ADMIN"
+            },
+            new Role {
+                Id = 2,
+                Name = "Staff",
+                NormalizedName = "STAFF"
+              },
+            });*/
+
     }
 }
 
+//--------------------------------------------------------------------------------------//
+/// <summary>
+/// Extra fields for registration
+/// </summary>
 public class GregNetGenProjectUserEntityConfiguration : IEntityTypeConfiguration<GregNetGenProjectUser>
 {
     public void Configure(EntityTypeBuilder<GregNetGenProjectUser> builder)
@@ -35,3 +58,4 @@ public class GregNetGenProjectUserEntityConfiguration : IEntityTypeConfiguration
         builder.Property(user => user.Hobbies).HasMaxLength(100);
     }
 }
+//-------------------------------ooo000 END OF FILE 000ooo-------------------------------//
