@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using NuGet.Packaging;
 
 namespace GregNetGenProject.Areas.Identity.Pages.Account
 {
@@ -125,11 +126,20 @@ namespace GregNetGenProject.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     //Creating claims
-                    var claims = new Claim[] 
+                    var claims = new List<Claim> 
                     { 
-                        new Claim("amr", "pwd")//,
-                        //new Claim("EmployeeNumber", "1")
+                        new Claim("amr", "pwd")
                     };
+
+                    //Roles
+                    var roles = await _signInManager.UserManager.GetRolesAsync(user);
+
+                    if (roles.Any())
+                    {
+                        var roleClaim = string.Join(",", roles);
+                        claims.Add(new Claim("Roles", roleClaim));
+                    }
+
 
                     //Then it uses the claims
                     await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, claims);
