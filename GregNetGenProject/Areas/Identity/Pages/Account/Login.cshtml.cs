@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace GregNetGenProject.Areas.Identity.Pages.Account
 {
@@ -109,10 +110,32 @@ namespace GregNetGenProject.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
-            {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+            {               
+                //This is supposed to be for the authorization
+                var user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
+                if (user == null)
+                {
+                    //Error message
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
+                //For when you are logging in it checks your password
+                var result = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, false);
+                if (result.Succeeded)
+                {
+                    //Creating claims
+                    var claims = new Claim[] 
+                    { 
+                        new Claim("amr", "pwd")
+                    };
+
+                    //Then it uses the claims
+                    await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, claims);
+
+                    _logger.LogInformation("User logged in.");
+                    return LocalRedirect(returnUrl);
+                } 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

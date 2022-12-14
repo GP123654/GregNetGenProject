@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using GregNetGenProject.Models;
+using GregNetGenProject.Migrations;
 
 namespace GregNetGenProject.Areas.Identity.Pages.Account
 {
@@ -30,6 +32,10 @@ namespace GregNetGenProject.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<GregNetGenProjectUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+
+
+        //private string UserID;
+
 
         public RegisterModel(
             UserManager<GregNetGenProjectUser> userManager,
@@ -161,7 +167,7 @@ namespace GregNetGenProject.Areas.Identity.Pages.Account
                 user.Age = Input.Age;
                 user.Hobbies = Input.Hobbies;
 
-
+                
 
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -173,6 +179,9 @@ namespace GregNetGenProject.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
+
+                    //UserID = await _userManager.GetUserIdAsync(user);
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -204,6 +213,7 @@ namespace GregNetGenProject.Areas.Identity.Pages.Account
             return Page();
         }
 
+
         private GregNetGenProjectUser CreateUser()
         {
             try
@@ -226,5 +236,38 @@ namespace GregNetGenProject.Areas.Identity.Pages.Account
             }
             return (IUserEmailStore<GregNetGenProjectUser>)_userStore;
         }
+
+
+
+
+
+
+        //------------------------------------------------------------------------------//
+        //Trying to add an audit Log for registering
+
+        /*
+        private readonly GregNetGenProjectDBContext _context;
+
+        public RegisterModel(GregNetGenProjectDBContext context)
+        {
+            _context = context;
+        }
+
+        public int AddRegisterAuditLog(AuditingModel auditingModel)
+        {
+            var newAudit = new AuditingModel()
+            {
+                //Id = UserID,
+                DateTime = DateTime.Now,
+                Description = "User Registered Successfully",
+                EmailAddress = Input.Email
+            };
+            _context.AuditingModel.Add(newAudit);
+            _context.SaveChanges();
+
+            return newAudit.Id;
+        }
+        */
+
     }
 }
