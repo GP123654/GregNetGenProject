@@ -5,7 +5,7 @@ namespace GregNetGenProject.Controllers
 {
     public class RoleController : Controller
     {
-        //[Authorize()]
+        [Authorize(Policy = "EmployeeOnly")]
         public IActionResult Index()
         {
             return View();

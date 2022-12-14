@@ -127,7 +127,8 @@ namespace GregNetGenProject.Areas.Identity.Pages.Account
                     //Creating claims
                     var claims = new Claim[] 
                     { 
-                        new Claim("amr", "pwd")
+                        new Claim("amr", "pwd")//,
+                        //new Claim("EmployeeNumber", "1")
                     };
 
                     //Then it uses the claims

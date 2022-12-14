@@ -9,6 +9,7 @@ using GregNetGenProject.Areas.Identity.Data;
 using GregNetGenProject.Models;
 //using AspNetCore;
 using GregNetGenProject.Areas.Identity.Pages.Account;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GregNetGenProject.Controllers
 {
@@ -21,6 +22,7 @@ namespace GregNetGenProject.Controllers
             _context = context;
         }
 
+        [Authorize(Policy = "EmployeeOnly")]
         // GET: Auditing
         public async Task<IActionResult> Index()
         {
