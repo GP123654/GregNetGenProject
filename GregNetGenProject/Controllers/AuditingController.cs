@@ -22,13 +22,17 @@ namespace GregNetGenProject.Controllers
             _context = context;
         }
 
-        [Authorize(Policy = "EmployeeOnly")]
+        //This is to authorize users /policies and stuff are created
+        //in the program.cs file and login.cshtml.cs file
+        [Authorize(Roles = "Admin, Reporter")]
         // GET: Auditing
         public async Task<IActionResult> Index()
         {
               return View(await _context.AuditingModel.ToListAsync());
         }
 
+        //I put it on all the Gets so that unauthorized people cannot access any of the pages
+        [Authorize(Roles = "Admin, Reporter")]
         // GET: Auditing/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -47,6 +51,7 @@ namespace GregNetGenProject.Controllers
             return View(auditingModel);
         }
 
+        [Authorize(Roles = "Admin, Reporter")]
         // GET: Auditing/Create
         public IActionResult Create()
         {
@@ -69,6 +74,7 @@ namespace GregNetGenProject.Controllers
             return View(auditingModel);
         }
 
+        [Authorize(Roles = "Admin, Reporter")]
         // GET: Auditing/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -120,6 +126,7 @@ namespace GregNetGenProject.Controllers
             return View(auditingModel);
         }
 
+        [Authorize(Roles = "Admin, Reporter")]
         // GET: Auditing/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using GregNetGenProject.Areas.Identity.Data;
 using GregNetGenProject.Areas.Identity.Pages.Account;
+using Microsoft.VisualBasic;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("GregNetGenProjectDBContextConnection") ?? throw new InvalidOperationException("Connection string 'GregNetGenProjectDBContextConnection' not found.");
@@ -10,6 +12,7 @@ builder.Services.AddDbContext<GregNetGenProjectDBContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<GregNetGenProjectUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<GregNetGenProjectDBContext>();
 
 // Add services to the container.
@@ -24,7 +27,8 @@ builder.Services.AddControllersWithViews();
 //    .AddRoles<IdentityRole>();
 
 
-AddAuthorizationPolicies(builder.Services);
+//For Policies and Roles
+AddAuthorizationPolicies();
 
 
 var app = builder.Build();
@@ -56,10 +60,14 @@ app.MapRazorPages();
 app.Run();
 
 
-void AddAuthorizationPolicies(IServiceCollection services)
+//--------------------------------------------------------------------------------------//
+//For the policies and roles
+void AddAuthorizationPolicies()
 {
-    services.AddAuthorization(options =>
+    builder.Services.AddAuthorization(options =>
     {
-        options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("EmployeeNumber"));
+        options.AddPolicy("RequireAdmin", policy => policy.RequireRole("Administrator"));
+        options.AddPolicy("RequireManager", policy => policy.RequireRole("Manager"));
+        options.AddPolicy("RequireUser", policy => policy.RequireRole("User"));
     });
 }
