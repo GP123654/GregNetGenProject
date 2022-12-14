@@ -4,6 +4,7 @@
 @using GregNetGenProject.Areas.Identity.Data
 
 @inject SignInManager<GregNetGenProjectUser> SignInManager
+@inject UserManager<GregNetGenProjectUser> UserManager
 
 <html lang="en">
 
@@ -34,7 +35,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        
+
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">

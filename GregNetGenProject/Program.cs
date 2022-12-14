@@ -24,6 +24,9 @@ builder.Services.AddControllersWithViews();
 //    .AddRoles<IdentityRole>();
 
 
+AddAuthorizationPolicies(builder.Services);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,3 +54,12 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+
+void AddAuthorizationPolicies(IServiceCollection services)
+{
+    services.AddAuthorization(options =>
+    {
+        options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("EmployeeNumber"));
+    });
+}
