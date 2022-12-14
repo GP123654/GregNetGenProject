@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using GregNetGenProject.Areas.Identity.Data;
+using GregNetGenProject.Areas.Identity.Pages.Account;
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("GregNetGenProjectDBContextConnection") ?? throw new InvalidOperationException("Connection string 'GregNetGenProjectDBContextConnection' not found.");
 
@@ -13,8 +15,11 @@ builder.Services.AddDefaultIdentity<GregNetGenProjectUser>(options => options.Si
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//Trying to add a register audit log
+//builder.Services.AddScoped<RegisterModel, RegisterModel>();
 
-//Might delete
+
+//Trying to do roles
 //builder.Services.AddDefaultIdentity<IdentityUser>()
 //    .AddRoles<IdentityRole>();
 

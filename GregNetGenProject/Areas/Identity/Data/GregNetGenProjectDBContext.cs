@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Data;
+using GregNetGenProject.Models;
 
 namespace GregNetGenProject.Areas.Identity.Data;
 
@@ -41,6 +42,8 @@ public class GregNetGenProjectDBContext : IdentityDbContext<GregNetGenProjectUse
             });*/
 
     }
+
+    public DbSet<GregNetGenProject.Models.AuditingModel> AuditingModel { get; set; }
 }
 
 //--------------------------------------------------------------------------------------//
