@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using GregNetGenProject.Areas.Identity.Data;
 using GregNetGenProject.Areas.Identity.Pages.Account;
 using Microsoft.VisualBasic;
-
+using GregNetGenProject.Core.Repositories;
+using GregNetGenProject.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("GregNetGenProjectDBContextConnection") ?? throw new InvalidOperationException("Connection string 'GregNetGenProjectDBContextConnection' not found.");
@@ -22,9 +23,7 @@ builder.Services.AddControllersWithViews();
 //builder.Services.AddScoped<RegisterModel, RegisterModel>();
 
 
-//Trying to do roles
-//builder.Services.AddDefaultIdentity<IdentityUser>()
-//    .AddRoles<IdentityRole>();
+AddScoped();
 
 
 //For Policies and Roles
@@ -71,3 +70,16 @@ void AddAuthorizationPolicies()
         options.AddPolicy("RequireUser", policy => policy.RequireRole("User"));
     });
 }
+
+
+//--------------------------------------------------------------------------------------//
+//For the Interfaces and repositories
+void AddScoped()
+{
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+}
+
+
+
+//-------------------------------ooo000 END OF FILE 000ooo-------------------------------//
