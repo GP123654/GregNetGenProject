@@ -8,7 +8,7 @@ namespace GregNetGenProject.Models
     public class AuditingModel
     {
         /// <summary>
-        /// This stores the id of the user when auditing
+        /// This stores the id of the user when auditing // I think I should have made this a string
         /// </summary>
         public int Id { get; set; }
 

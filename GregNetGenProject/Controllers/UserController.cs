@@ -1,5 +1,10 @@
-﻿using GregNetGenProject.Core.Repositories;
+﻿using GregNetGenProject.Areas.Identity.Data;
+using GregNetGenProject.Core.Repositories;
+using GregNetGenProject.Core.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace GregNetGenProject.Controllers
 {
@@ -14,25 +19,57 @@ namespace GregNetGenProject.Controllers
             _unitOfWork = unitOfWork;
         }
 
+
+        /*
+        private readonly GregNetGenProjectDBContext _context;
+
+        public UserController(GregNetGenProjectDBContext context)
+        {
+            _context = context;
+        }*/
+
+        [Authorize(Roles = "Admin")]
         //------------------------------------------------------------------------------//
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public IActionResult Index()
+        public IActionResult Index()//string searchString)
         {
             var users = _unitOfWork.User.GetUsers();
+
+            /*
+            ViewData["CurrentFilter"] = searchString;
+
+            var searchUsers = from s in _context.Users
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                searchUsers = searchUsers.Where(s => s.EmailAddress.Contains(searchString) || s.FirstName.Contains(searchString));
+            }*/
+
+
             return View(users);
         }
 
+        [Authorize(Roles = "Admin")]
         //------------------------------------------------------------------------------//
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public IActionResult Edit()
+        public IActionResult Edit(string id)
         {
-            return View();
+            var user = _unitOfWork.User.GetUser(id);
+            var roles = _unitOfWork.Role.GetRoles();
+
+            var vm = new EditUserViewModel
+            {
+                User = user,
+                Roles = roles
+            };
+
+            return View(vm);
         }
     }
 }

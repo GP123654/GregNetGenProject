@@ -26,18 +26,8 @@ namespace GregNetGenProject.Controllers
         //in the program.cs file and login.cshtml.cs file
         [Authorize(Roles = "Admin, Reporter")]
         // GET: Auditing
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index()
         {
-            ViewData["CurrentFilter"] = searchString;
-
-            var students = from s in _context.AuditingModel
-                           select s;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                students = students.Where(s => s.EmailAddress.Contains(searchString));
-            }
-
-
             return View(await _context.AuditingModel.ToListAsync());
         }
 

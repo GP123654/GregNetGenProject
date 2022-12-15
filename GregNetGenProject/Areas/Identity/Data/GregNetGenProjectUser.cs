@@ -44,4 +44,10 @@ public class GregNetGenProjectUser : IdentityUser
     /// </summary>
     public string Hobbies { get; set; }
 }
+
+public class ApplicationRole : IdentityRole
+{
+
+}
+
 //-------------------------------ooo000 END OF FILE 000ooo-------------------------------//
