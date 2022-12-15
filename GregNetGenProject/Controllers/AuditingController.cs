@@ -26,9 +26,19 @@ namespace GregNetGenProject.Controllers
         //in the program.cs file and login.cshtml.cs file
         [Authorize(Roles = "Admin, Reporter")]
         // GET: Auditing
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-              return View(await _context.AuditingModel.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            var students = from s in _context.AuditingModel
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(s => s.EmailAddress.Contains(searchString));
+            }
+
+
+            return View(await _context.AuditingModel.ToListAsync());
         }
 
         //I put it on all the Gets so that unauthorized people cannot access any of the pages
@@ -196,3 +206,4 @@ namespace GregNetGenProject.Controllers
         }*/
     }
 }
+//-------------------------------ooo000 END OF FILE 000ooo-------------------------------//

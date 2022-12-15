@@ -136,6 +136,7 @@ namespace GregNetGenProject.Areas.Identity.Pages.Account
 
                     if (roles.Any())
                     {
+                        //If there are multiple roles
                         var roleClaim = string.Join(",", roles);
                         claims.Add(new Claim("Roles", roleClaim));
                     }
