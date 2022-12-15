@@ -6,7 +6,7 @@ namespace GregNetGenProject.Core.Repositories
     {
         ICollection<GregNetGenProjectUser> GetUsers();
 
-
+        GregNetGenProjectUser GetUser(string id);
     }
 }
 //-------------------------------ooo000 END OF FILE 000ooo-------------------------------//

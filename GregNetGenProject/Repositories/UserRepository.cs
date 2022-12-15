@@ -13,6 +13,11 @@ namespace GregNetGenProject.Repositories
             _context = context;
         }
 
+        public GregNetGenProjectUser GetUser(string id)
+        {
+            return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
+
         //------------------------------------------------------------------------------//
         /// <summary>
         /// Implementing the Interface
